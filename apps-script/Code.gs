@@ -12,10 +12,12 @@
 
 // ─── CONFIG ────────────────────────────────────────────────────────────────
 var CONFIG = {
+  // The Google Sheet that stores sessions and registrations.
+  SHEET_ID: '1Kp42lQ-boNmbL4PI4Hl5YbruwlIE--Hcx7_53jGLiaI',
   CONFERENCE_NAME: 'Tecumseh Ed Tech Conference',
   // Only emails ending in @<ALLOWED_DOMAIN> may sign up. Lowercase, no "@".
-  // TODO: set to the district's real email domain before going live.
-  ALLOWED_DOMAIN: 'CHANGE-ME.example.org',
+  // Staff domain per district administrative directory (tecumseh.k12.oh.us site).
+  ALLOWED_DOMAIN: 'tecumsehlocal.org',
   SIGNUPS_OPEN: true,          // flip to false to freeze signups
   SEND_CONFIRMATION_EMAIL: true,
   TIME_ZONE: 'America/New_York',
@@ -200,8 +202,12 @@ function cancel_(body) {
 }
 
 // ─── DATA ACCESS ──────────────────────────────────────────────────────────
+function ss_() {
+  return CONFIG.SHEET_ID ? SpreadsheetApp.openById(CONFIG.SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
+}
+
 function getSheet_(name) {
-  var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(name);
+  var sh = ss_().getSheetByName(name);
   if (!sh) throw new Error('Missing sheet tab "' + name + '". Run setupSheet() first.');
   return sh;
 }
@@ -375,7 +381,7 @@ function stripHtml_(h) {
 
 // ─── ONE-TIME SETUP (run manually from the Apps Script editor) ────────────
 function setupSheet() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = ss_();
   ss.setSpreadsheetTimeZone(CONFIG.TIME_ZONE);
 
   var s = ss.getSheetByName(SESSIONS_SHEET) || ss.insertSheet(SESSIONS_SHEET);
