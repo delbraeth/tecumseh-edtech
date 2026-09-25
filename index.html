@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ed Tech Conference Signup</title>
+  <meta name="description" content="Sign up for sessions at the Tecumseh Local Schools Ed Tech Conference.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to sessions</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <img class="logo" src="assets/logo.png" alt="Tecumseh Technology logo" width="88" height="88">
+      <div>
+        <p class="eyebrow" id="tagline">Tecumseh Local Schools</p>
+        <h1 id="conf-name">Ed Tech Conference</h1>
+        <p class="sub">Choose the sessions you want to attend.</p>
+      </div>
+    </div>
+  </header>
+
+  <div id="demo-banner" class="banner" hidden>
+    <div class="wrap"><strong>Demo mode:</strong> no backend is connected, so nothing you do here is saved.</div>
+  </div>
+  <div id="closed-banner" class="banner banner-warn" hidden>
+    <div class="wrap"><strong>Signups are closed.</strong> You can still look up your schedule.</div>
+  </div>
+
+  <main id="main" class="wrap layout">
+    <aside class="sidebar">
+      <section class="card" id="identity-card" aria-labelledby="id-h">
+        <h2 id="id-h">1. Your info</h2>
+        <form id="identity-form" novalidate>
+          <label for="name">Full name</label>
+          <input id="name" name="name" autocomplete="name" required maxlength="100">
+          <label for="email">District email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" inputmode="email">
+          <p class="hint" id="domain-hint"></p>
+          <p class="error" id="identity-error" role="alert"></p>
+          <button type="submit" class="btn btn-primary" id="identity-btn">Continue</button>
+        </form>
+        <div id="identity-summary" hidden>
+          <p class="who"><strong id="who-name"></strong><br><span id="who-email"></span></p>
+          <button type="button" class="btn btn-link" id="switch-user">Not you? Switch</button>
+        </div>
+      </section>
+
+      <section class="card" id="schedule-card" aria-labelledby="sched-h">
+        <h2 id="sched-h">My schedule <span class="count" id="sched-count">0</span></h2>
+        <ol id="my-schedule" class="my-schedule"></ol>
+        <p class="muted" id="sched-empty">Nothing yet. Sign up for sessions and they'll appear here.</p>
+      </section>
+    </aside>
+
+    <section class="sessions" aria-labelledby="sess-h">
+      <div class="sessions-head">
+        <h2 id="sess-h">2. Browse sessions</h2>
+        <label class="search">
+          <span class="sr-only">Search sessions</span>
+          <input id="search" type="search" placeholder="Search by title, presenter, room…">
+        </label>
+      </div>
+      <p class="muted" id="sessions-status" role="status">Loading sessions…</p>
+      <div id="session-list"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <footer class="site-footer">
+    <div class="wrap">Questions? Contact your building technology coordinator.</div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
