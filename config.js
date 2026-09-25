@@ -2,7 +2,7 @@
 window.SIGNUP_CONFIG = {
   // Paste the Apps Script "Web app" URL here (ends in /exec).
   // Leave empty to run the page in DEMO mode with sample data (nothing is saved).
-  API_URL: '',
+  API_URL: 'https://script.google.com/macros/s/AKfycbwzLgtXPyCgVgOFx6VhEDRtDOiMdcdNyuFSsCv2lyft82RUn8ywQG5lqZfJz4I85dtV/exec',
 
   CONFERENCE_NAME: 'Tecumseh Ed Tech Conference',
   CONFERENCE_TAGLINE: 'Tecumseh Local Schools',

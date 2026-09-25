@@ -23,25 +23,25 @@ Teacher's browser ──► GitHub Pages (index.html, app.js)
 - Re-entering the same email later shows that teacher's schedule and lets them drop sessions.
 - A **confirmation email** with the full current schedule goes out after every add or drop.
 
-## Setup (about 15 minutes)
+## Live setup (done)
 
-### 1. Create the Sheet and backend
-1. Create a new Google Sheet, for example "Ed Tech Conference Signups", in the account that should own the data and send the emails.
-2. Open **Extensions → Apps Script**. Delete the starter code and paste in all of `apps-script/Code.gs`.
-3. At the top of the file, set `ALLOWED_DOMAIN` to the district email domain (for example `yourdistrict.k12.oh.us`, with no `@`). Optionally set `CONTACT_EMAIL`.
-4. Pick `setupSheet` in the function dropdown and click **Run**. Approve the permission prompts. This creates the **Sessions**, **Registrations** and **Roster** tabs and 9 placeholder sessions.
-5. Click **Deploy → New deployment → Web app**:
-   - Execute as: **Me**
-   - Who has access: **Anyone**. This is required so the public page can call it. Teachers never see or log into Google through it.
-6. Copy the Web app URL (it ends in `/exec`).
+| Piece | Where |
+|---|---|
+| Site | https://delbraeth.github.io/tecumseh-edtech/ |
+| Google Sheet | "Tecumseh Ed Tech Conference Signups" in patrick.cassidy064@gmail.com's Drive |
+| Apps Script project | "EdTech Signup Backend" at script.google.com (standalone; opens the Sheet by ID) |
+| Web app URL | in `config.js` → `API_URL` |
+| Allowed email domain | `tecumsehlocal.org` |
 
-### 2. Publish the site on GitHub
-1. Create a repository, for example `edtech-signup`, and upload everything **except** the `apps-script/` folder. Including that folder is harmless, but it isn't needed on the site.
-2. In `config.js`, paste the `/exec` URL into `API_URL`.
-3. Go to repo **Settings → Pages → Build and deployment**, choose **Deploy from a branch**, then `main` / `root`.
-4. The site will be at `https://<your-github-user>.github.io/edtech-signup/`.
+The Sheet tabs (**Sessions**, **Registrations**, **Roster**) are created automatically on the first request, and re-created if one is deleted.
 
-If `API_URL` is left blank, the page runs in **demo mode** on sample data and saves nothing. Use it to preview.
+### Rebuilding from scratch (only if needed)
+1. Create a Google Sheet; copy its ID from the URL.
+2. At script.google.com create a project, paste `apps-script/Code.gs`, and set `SHEET_ID` and `ALLOWED_DOMAIN` in `CONFIG`.
+3. **Deploy → New deployment → Web app**, Execute as **Me**, Who has access **Anyone**. Approve the permission prompt.
+4. Put the `/exec` URL in `config.js` → `API_URL` and commit.
+
+If `API_URL` is blank, the page runs in **demo mode** with sample data and saves nothing.
 
 ## Managing sessions (in the Sheet)
 
@@ -58,7 +58,7 @@ Changes show up the next time a teacher loads the page. Nothing needs redeployin
 **Registrations** is an append-only log: a dropped session is marked `Cancelled` rather than deleted, so you have a history. To see who is in a session, filter by SessionID and `Status = Active`. **Roster** shows live counts.
 
 ## Changing the code later
-After editing `Code.gs`, go to **Deploy → Manage deployments → ✏️ → Version: New version → Deploy**. That keeps the same URL. Creating a *new deployment* instead gives you a new URL, and you'd have to update `config.js`.
+After editing the code in the Apps Script editor (keep `apps-script/Code.gs` in this repo in sync), go to **Deploy → Manage deployments → ✏️ → Version: New version → Deploy**. That keeps the same URL. Creating a *new deployment* instead gives you a new URL, and you'd have to update `config.js`.
 
 To freeze signups (for example the day before the event), set `SIGNUPS_OPEN: false` in `Code.gs` and redeploy a new version.
 

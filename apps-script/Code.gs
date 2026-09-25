@@ -6,7 +6,8 @@
  *   Sessions       SessionID | Name | Description | Location | Start | End | Presenter | Capacity | Active
  *   Registrations  Timestamp | Email | Name | SessionID | Status | Updated
  *
- * Deploy: Extensions > Apps Script > Deploy > New deployment > Web app
+ * Tabs are created automatically on first request (or run setupSheet()).
+ * Deploy: Deploy > New deployment > Web app
  *         Execute as: Me   |   Who has access: Anyone
  */
 
@@ -208,7 +209,12 @@ function ss_() {
 
 function getSheet_(name) {
   var sh = ss_().getSheetByName(name);
-  if (!sh) throw new Error('Missing sheet tab "' + name + '". Run setupSheet() first.');
+  if (!sh) {
+    // First run (or a tab was deleted): build the tabs, then retry once.
+    setupSheet();
+    sh = ss_().getSheetByName(name);
+  }
+  if (!sh) throw new Error('Missing sheet tab "' + name + '".');
   return sh;
 }
 
@@ -387,7 +393,7 @@ function setupSheet() {
   var s = ss.getSheetByName(SESSIONS_SHEET) || ss.insertSheet(SESSIONS_SHEET);
   if (s.getLastRow() === 0) {
     s.appendRow(SESSION_HEADERS);
-    var d = function (h, m) { return new Date(2026, 9, 16, h, m); }; // placeholder: Fri Oct 16 2026
+    var d = function (h, m) { return new Date(Date.UTC(2026, 9, 16, h + 4, m)); }; // placeholder: Fri Oct 16 2026, EDT
     var sample = [
       ['S01', 'Session 1A (TBD)', 'Description coming soon.', 'Room 101', d(8, 30), d(9, 20), 'Presenter TBD', 30, true],
       ['S02', 'Session 1B (TBD)', 'Description coming soon.', 'Room 102', d(8, 30), d(9, 20), 'Presenter TBD', 30, true],
