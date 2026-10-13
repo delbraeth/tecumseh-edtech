@@ -53,7 +53,21 @@ If `API_URL` is blank, the page runs in **demo mode** with sample data and saves
 | Capacity | Seat limit. Blank or 0 means unlimited. |
 | Active | `FALSE` hides the session and blocks new signups. Existing registrations stay in the sheet. |
 
-Changes show up the next time a teacher loads the page. Nothing needs redeploying.
+Changes show up the next time a teacher loads the page.
+
+### Formatting session descriptions
+Type these in the Description cell. Sheet formatting such as bold, colors and fonts does **not** carry over to the site.
+
+| You type | Shows as |
+|---|---|
+| `**Google Classroom**` | **Google Classroom** (bold) |
+| `*charged*` | *charged* (italic) |
+| A new line inside the cell (Mac: ⌘+Enter, Windows: Ctrl+Enter) | a line break |
+| A blank line | a new paragraph |
+| Lines starting with `- ` | a bulleted list |
+| `https://...` | a clickable link (opens in a new tab) |
+
+ Nothing needs redeploying.
 
 **Registrations** is an append-only log: a dropped session is marked `Cancelled` rather than deleted, so you have a history. To see who is in a session, filter by SessionID and `Status = Active`. **Roster** shows live counts.
 

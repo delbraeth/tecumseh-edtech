@@ -60,6 +60,34 @@
     });
   }
 
+  // Light formatting for session descriptions typed in the Sheet:
+  //   **bold**   *italic*   lines starting with "- " become bullets,
+  //   a blank line starts a new paragraph, https:// links become clickable.
+  // Text is HTML-escaped first, so nothing typed in the Sheet can inject markup.
+  function inlineFmt(t) {
+    return t
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^\w*])\*([^*\s][^*]*?)\*(?![\w*])/g, '$1<em>$2</em>')
+      .replace(/\bhttps?:\/\/[^\s<]+[^\s<.,;:!?)]/g, function (u) {
+        return '<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + u + '</a>';
+      });
+  }
+  function formatDesc(text) {
+    var lines = esc(String(text).replace(/\r\n?/g, '\n')).split('\n');
+    var html = '', para = [], list = [];
+    function flushPara() { if (para.length) { html += '<p>' + para.map(inlineFmt).join('<br>') + '</p>'; para = []; } }
+    function flushList() { if (list.length) { html += '<ul>' + list.map(function (li) { return '<li>' + inlineFmt(li) + '</li>'; }).join('') + '</ul>'; list = []; } }
+    lines.forEach(function (raw) {
+      var line = raw.trim();
+      var m = line.match(/^(?:[-•*])\s+(.*)$/);
+      if (m) { flushPara(); list.push(m[1]); }
+      else if (!line) { flushPara(); flushList(); }
+      else { flushList(); para.push(line); }
+    });
+    flushPara(); flushList();
+    return html;
+  }
+
   // ─── RULES (mirror of server; server is the authority) ────────────────
   function overlaps(a, b) {
     if (!a.start || !a.end || !b.start || !b.end) return false;
@@ -179,7 +207,7 @@
         '<li><b>Where:</b> ' + esc(s.location || 'TBA') + '</li>' +
         '<li><b>Presenter:</b> ' + esc(s.presenter || 'TBA') + '</li>' +
       '</ul>' +
-      (s.description ? '<p class="desc">' + esc(s.description) + '</p>' : '') +
+      (s.description ? '<div class="desc">' + formatDesc(s.description) + '</div>' : '') +
       '<div class="session-foot">' + seats + note + action + '</div>' +
     '</article>';
   }

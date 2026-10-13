@@ -85,7 +85,12 @@ input:focus { outline: 3px solid rgba(213,32,51,.25); border-color: var(--red); 
 .session h3 { font-size: 17px; }
 .meta { list-style: none; margin: 0; padding: 0; font-size: 14px; color: var(--muted); display: grid; gap: 2px; }
 .meta b { color: var(--text); font-weight: 600; }
-.desc { font-size: 14px; margin: 0; }
+.desc { font-size: 14px; }
+.desc p { margin: 0 0 6px; }
+.desc p:last-child { margin-bottom: 0; }
+.desc ul { margin: 0 0 6px; padding-left: 20px; }
+.desc li { margin: 2px 0; }
+.desc a { color: var(--red-dark); word-break: break-all; }
 .seats { font-size: 13px; color: var(--muted); }
 .bar { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; margin-top: 4px; }
 .bar > span { display: block; height: 100%; background: var(--black); }
