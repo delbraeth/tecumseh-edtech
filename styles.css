@@ -77,7 +77,7 @@ input:focus { outline: 3px solid rgba(213,32,51,.25); border-color: var(--red); 
 .sessions-head h2 { font-size: 20px; }
 .search { flex: 1 1 240px; max-width: 360px; }
 .slot { margin-top: 22px; }
-.slot-h { font-size: 15px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border-bottom: 2px solid var(--black); padding-bottom: 6px; margin-bottom: 12px; }
+.slot-h { font-size: 22px; text-transform: uppercase; letter-spacing: .05em; color: var(--red); border-bottom: 2px solid var(--black); padding-bottom: 6px; margin-bottom: 12px; }
 .slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
 
 .session { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--shadow); }
